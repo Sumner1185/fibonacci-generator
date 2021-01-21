@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axious';
+import axios from 'axios';
 
 class Fib extends Component {
     state = {
@@ -35,7 +35,7 @@ class Fib extends Component {
     };
 
     renderSeenIndexes() {
-        return this.state.seenIndexes.map(({ number }) => number),join(', ');
+        return this.state.seenIndexes.map(({ number }) => number).join(', ');
     };
 
     renderValues() {
