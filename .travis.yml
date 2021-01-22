@@ -22,3 +22,14 @@ after_success:
   - docker push alastairsumner/fib-server
   - docker push alastairsumner/fib-worker
   
+deploy:
+  provider: elasticbeanstalk
+  region: eu-west-1
+  app: fib-generator
+  env: FibGenerator-env
+  bucket_name: elasticbeanstalk-eu-west-1-350084780678
+  bucket_path: fib-gen
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
