@@ -1,0 +1,24 @@
+language: generic 
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t alastairsumner/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true alastairsumner/react-test npm test
+
+after_success:
+  - docker build -t alastairsumner/fib-client ./client
+  - docker build -t alastairsumner/fib-nginx ./nginx
+  - docker build -t alastairsumner/fib-server ./server
+  - docker build -t alastairsumner/fib-worker ./worker
+  # Log in to docker CLI - env var stored on Travis GUI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to Docker Hub
+  - docker push alastairsumner/fib-client
+  - docker push alastairsumner/fib-nginx
+  - docker push alastairsumner/fib-server
+  - docker push alastairsumner/fib-worker
+  
